@@ -137,4 +137,3 @@ if __name__ == '__main__':
     print('testresult')
     config = config_reader.read_config('graphene_config.txt')
     graphene=Graphene(config)
-    import ipdb; ipdb.set_trace()

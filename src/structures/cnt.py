@@ -49,18 +49,19 @@ class CNT(object):
         self.tubes = []
         
     def check_dim_limit(self, points, limit_dim=None):
+        in_limit=True
         if limit_dim is None:
-            limit_dim = self.limit_dim
+            limit_dim = self.limit_dim-self.tol
         for point in points:
-            in_limit = (-limit_dim[0] < point[0] < limit_dim[0]
-                        and -limit_dim[1] < point[1] < limit_dim[1]
-                        and -limit_dim[2] < point[2] < limit_dim[2])
+            in_limit &= (-limit_dim[0] < point[0] < limit_dim[0]
+                         and -limit_dim[1] < point[1] < limit_dim[1]
+                         and -limit_dim[2] < point[2] < limit_dim[2])
         return in_limit
         
     def create_struct(self):
         while len(self.tubes) < self.no_of_tubes:
             #generate random centre and angle for the tube
-            rand_center = utils.get_rand_3dpoint(limit_dim=self.limit_dim-self.tubelength/2) 
+            rand_center = utils.get_rand_3dpoint(limit_dim=self.limit_dim-self.tol) 
             alpha,beta = random.sample(self.angleset,2)
             #create the tube with randomly generated data above 
             tube = Tube(center=rand_center, length=self.tubelength,
@@ -73,16 +74,17 @@ class CNT(object):
                 self.tubes.append(tube)
                 print("no. of cnt created: ", len(self.tubes))
             else:
+                tubes_intersect=False
                 for i, existing_tube in enumerate(self.tubes):
                     _, _, dist = utils.dist_between_lines(tube.vertice1, tube.vertice2,
                                                           existing_tube.vertice1, existing_tube.vertice2,
                                                           clampAll=True)
                     if dist < self.tubedia+self.tol:
+                        tubes_intersect=True
                         break
-                if i == len(self.tubes)-1:
+                if not tubes_intersect:
                     self.tubes.append(tube)
                     print("no. of cnt created: ", len(self.tubes))
-
 
 if __name__ == "__main__":
     pass

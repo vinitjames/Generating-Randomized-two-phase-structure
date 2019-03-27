@@ -1,3 +1,4 @@
+
 import numpy as np
 import math
 from  src.utils import utils
@@ -26,14 +27,15 @@ if __name__ == '__main__':
             if utils.point_in_cylinder(point,tube.vertice1,tube.vertice2,cnt.tubedia/2):
                 break
         if i == len(cnt.tubes)-1:
-            aerogel_writer.writerow(row)
             no_of_points_outside += 1
+            row[0]=row[1]=no_of_points_outside
+            aerogel_writer.writerow(row)
         else:
             no_of_points_removed += 1   
     print('no of points written:', no_of_points_outside)
     print('no of points removed:', no_of_points_removed)
     aerogelread_db.close()
-    aerogelwrite_db.close()
+    #aerogelwrite_db.close()
     # create dat file for the cnt structure by reading the same cnt dat
     # file and altering the coordinates according to the cnt struct created
     for i,tube in enumerate(cnt.tubes):
@@ -51,7 +53,12 @@ if __name__ == '__main__':
                                                  math.sin(math.radians(tube.angle2))),point)
             #translating to the center of tube
             point += tube.center
+            no_of_points_outside += 1
+            row[0]=row[1]=no_of_points_outside
             row[4:7] = list(point)
-            cntwriter.writerow(row)
+            #cntwriter.writerow(row)
+            aerogel_writer.writerow(row)
+            
         cntread_db.close()
         cntwrite_db.close()
+    aerogelwrite_db.close()
