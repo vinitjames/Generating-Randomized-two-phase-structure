@@ -1,8 +1,8 @@
 aerogeldatfile = cntdatfiles/aerogel.dat
 cntdatfile = cntdatfiles/cnt.dat
-boundaryvolume = 80 80 80
-tubelength = 10
-tubediameter = 1.9
+boundaryvolume = 170 170 170
+tubelength = 105
+tubediameter = 19
 angleset = 15 30 45 60 75 105 120 135 150 165
-tubecount = 20
-spacingtolerance = 0.1
+tubecount = 30
+spacingtolerance = 4
